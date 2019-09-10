@@ -5,7 +5,6 @@ import isEqual = require('lodash/isEqual')
 import {
     CONSUL_ADDRESS,
     CONSUL_DC,
-    CONSUL_HOST_NAME,
     CONSUL_INDEX_HEADER,
     CONSUL_TOKEN_HEADER,
     DEFAULT_HOST,
@@ -35,7 +34,7 @@ export function defaultAddresses(): Array<string> {
  * Try to decode a base64 encoded string
  */
 export function decodeBase64(val: string): any {
-    return JSON.parse(Buffer.from(val, 'base64').toString('utf-8'))
+    return Buffer.from(val, 'base64').toString('utf-8')
 }
 
 export function removeLeadingTrailingSlash(str: string): string {
@@ -117,9 +116,7 @@ export function deepEqual(obj1: any, obj2: any): boolean {
 }
 
 export function headersForRequest(req: KVRequest | CatalogRequest): IHeaderMap {
-    const headers: IHeaderMap = {
-        host: CONSUL_HOST_NAME,
-    }
+    const headers: IHeaderMap = {}
 
     if (req.index !== undefined) {
         headers[CONSUL_INDEX_HEADER] = req.index + 1
